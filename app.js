@@ -1,6 +1,16 @@
 const express = require('express');
-const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
+
+//Connexion à la Base de données
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect('mongodb://localhost:27017/yelp-camp');
+  console.log('Database Connected!');
+}
+
+const app = express();
 const port = 3000
 
 //Configuration générale pour l'application Express

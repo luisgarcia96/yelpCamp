@@ -27,13 +27,9 @@ app.get('/', (req, res) => {
   res.render('home.ejs');
 })
 
-app.get('/makeCampground', async (req, res) => {
-  const camp = new Campground({
-    title: 'My Backyard 2',
-    description : 'cheap cheap'
-  })
-  await camp.save();
-  res.send(camp);
+app.get('/campgrounds',  async (req, res) => {
+  const allCampgrounds = await Campground.find({});
+  res.render('campgrounds/index.ejs',{allCampgrounds});
 })
 
 app.listen(port, () => {

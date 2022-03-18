@@ -5,6 +5,7 @@ const Campground = require('./models/campground');
 const ejsMate = require('ejs-mate');
 const {urlencoded} = require('express');
 const methodOverride = require('method-override');
+const axios = require('axios');
 
 
 //Connexion à la Base de données

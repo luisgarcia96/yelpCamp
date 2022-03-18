@@ -21,6 +21,8 @@ const port = 3000
 //Configuration générale pour l'application Express
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
+
+
 app.use(urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 

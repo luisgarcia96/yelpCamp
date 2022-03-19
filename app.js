@@ -3,16 +3,18 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Campground = require('./models/campground');
 const ejsMate = require('ejs-mate');
-const {urlencoded} = require('express');
+const {
+  urlencoded
+} = require('express');
 const methodOverride = require('method-override');
-
+const morgan = require('morgan');
 
 //Connexion à la Base de données
 main().catch(err => console.log(err));
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/yelp-camp');
-  console.log('Database Connected!');
+  console.log('Database Connected!')
 }
 
 const app = express();
@@ -24,8 +26,11 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
-app.use(urlencoded({extended: true}));
+app.use(urlencoded({
+  extended: true
+}));
 app.use(methodOverride('_method'));
+//app.use(morgan('dev'));
 
 
 
@@ -46,7 +51,7 @@ app.get('/campgrounds/new', (req, res) => {
 })
 
 app.post('/campgrounds', async (req, res) => {
-  const newCampground = new Campground(req.body.campground)
+  const newCampground = new Campground(req.body.campground);
   await newCampground.save();
   res.redirect(`/campgrounds/${newCampground._id}`)
 })
@@ -62,12 +67,16 @@ app.get('/campgrounds/:id', async (req, res) => {
 app.get('/campgrounds/:id/edit', async (req, res) => {
   const {id} = req.params;
   const campground = await Campground.findById(id);
-  res.render('campgrounds/edit.ejs', {campground});
+  res.render('campgrounds/edit.ejs', {
+    campground
+  });
 })
 
 app.put('/campgrounds/:id', async (req, res) => {
   const {id} = req.params;
-  const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+  const campground = await Campground.findByIdAndUpdate(id, {
+    ...req.body.campground
+  });
   res.redirect(`/campgrounds/${campground._id}`);
 })
 

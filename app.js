@@ -15,6 +15,7 @@ const res = require('express/lib/response');
 
 
 //Connexion à la Base de données
+mongoose.set('strictQuery', true);
 main().catch(err => console.log(err));
 
 async function main() {

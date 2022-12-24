@@ -7,12 +7,13 @@ const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const {urlencoded} = require('express');
 const methodOverride = require('method-override');
-const morgan = require('morgan');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const campgrounds = require('./routes/campgrounds');
-const reviews = require('./routes/reviews');
-const res = require('express/lib/response');
-
+const userRoutes = require('./routes/users');
+const campgroundRoutes = require('./routes/campgrounds');
+const reviewRoutes = require('./routes/reviews');
 
 //Connexion à la Base de données
 mongoose.set('strictQuery', true);
@@ -35,7 +36,6 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(morgan('dev'));
 
 const sessionConfig = {
   secret : 'thisisnotagoodsecret',
@@ -51,14 +51,28 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 })
 
-app.use('/campgrounds', campgrounds);
-app.use('/campgrounds/:id/reviews', reviews);
+app.get('/fakeUser', async (req, res) => {
+  const user = new User({email: 'user@user.com', username: 'luisss'});
+  const registeredUser = await User.register(user, 'password123');
+  res.send(registeredUser);
+})
+
+app.use('/', userRoutes);
+app.use('/campgrounds', campgroundRoutes);
+app.use('/campgrounds/:id/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
   res.render('home.ejs');

@@ -9,6 +9,7 @@
   "author": "Luis Garcia",
   "license": "ISC",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.14.0",
     "axios": "^0.26.1",
     "cloudinary": "^1.33.0",
     "connect-flash": "^0.1.1",

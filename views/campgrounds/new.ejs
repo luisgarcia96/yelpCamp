@@ -38,11 +38,8 @@
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Upload Image(s)...</label>
-                <input type="file" class="form-control" id="image" name="image" multiple required onchange="previewMultiple(event)">
+                <input type="file" class="form-control" id="image" name="image" multiple onchange="previewMultiple(event)">
                 <div id="formFile"></div>
-                <div class="invalid-feedback">
-                    This campground would look much better with a picture.
-                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add Campground</button>

@@ -37,8 +37,12 @@ const seedDB = async () => {
               ],
             price: randomPrice,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum, soluta iure? Ut labore perferendis quae modi sit minus sunt in sed, accusamus doloremque dignissimos, non voluptates quas dicta at itaque!',
-            author: '63a8bd9f375847f4981dab57',
-            location: `${cities[random1000].city}, ${cities[random1000].state}`
+            author: '63a8bd9f375847f4981dab57', //Your user ID
+            location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            geometry: {
+              "type":"Point",
+              "coordinates":[3.876734,43.611242]
+            }
         })
         await camp.save();
     }
